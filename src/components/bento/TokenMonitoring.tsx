@@ -19,6 +19,7 @@ interface TokenData {
 // Real contract addresses for Solana tokens
 const TOKEN_CONTRACTS = {
   elizaOS: 'DuMbhu7mvQvqQHGcnikDgb4XegXJRyhUBfdU22uELiZA',
+  aura: '3naeJLbMzPL23ocgDLUDoHwH1S7Hk5Fx83joThHwBAGS',
 }
 
 const TokenMonitoring = () => {
@@ -37,13 +38,16 @@ const TokenMonitoring = () => {
   useEffect(() => {
     const fetchTokenData = async () => {
       try {
-        console.log('Fetching ElizaOS token data...')
-        // Fetch ElizaOS token data from DexScreener
-        const elizaResponse = await fetch(
-          `https://api.dexscreener.com/latest/dex/tokens/${TOKEN_CONTRACTS.elizaOS}`
-        )
+        console.log('Fetching token data...')
+        // Fetch ElizaOS and AURA token data from DexScreener
+        const [elizaResponse, auraResponse] = await Promise.all([
+          fetch(`https://api.dexscreener.com/latest/dex/tokens/${TOKEN_CONTRACTS.elizaOS}`),
+          fetch(`https://api.dexscreener.com/latest/dex/tokens/${TOKEN_CONTRACTS.aura}`)
+        ])
         const elizaData = await elizaResponse.json()
+        const auraData = await auraResponse.json()
         console.log('ElizaOS data:', elizaData)
+        console.log('AURA data:', auraData)
 
         const formatNumber = (num: number): string => {
           if (num >= 1e9) return `$${(num / 1e9).toFixed(2)}B`
@@ -58,6 +62,26 @@ const TokenMonitoring = () => {
         }
 
         const newTokens: TokenData[] = []
+
+        // Process AURA (Bags) data - prioritize first
+        if (auraData.pairs && auraData.pairs.length > 0) {
+          const pair = auraData.pairs[0]
+          newTokens.push({
+            name: 'AURA',
+            symbol: '$AURA',
+            logo: '/aura-logo.png',
+            badge: 'AURA TOKEN',
+            badgeColor: 'cyan-glow',
+            contractAddress: TOKEN_CONTRACTS.aura.slice(0, 20) + '...',
+            price: formatPrice(parseFloat(pair.priceUsd || '0')),
+            mcap: formatNumber(parseFloat(pair.fdv || '0')),
+            priceChange: `${parseFloat(pair.priceChange?.h24 || '0').toFixed(2)}%`,
+            holders: 'N/A',
+            liquidity: formatNumber(parseFloat(pair.liquidity?.usd || '0')),
+            isPositive: parseFloat(pair.priceChange?.h24 || '0') >= 0,
+            dexScreenerUrl: 'https://bags.fm/3naeJLbMzPL23ocgDLUDoHwH1S7Hk5Fx83joThHwBAGS',
+          })
+        }
 
         // Process ElizaOS data
         if (elizaData.pairs && elizaData.pairs.length > 0) {
@@ -87,6 +111,21 @@ const TokenMonitoring = () => {
           // Use fallback if no data
           setTokens([
             {
+              name: 'AURA',
+              symbol: '$AURA',
+              logo: '/aura-logo.png',
+              badge: 'AURA TOKEN',
+              badgeColor: 'cyan-glow',
+              contractAddress: TOKEN_CONTRACTS.aura.slice(0, 20) + '...',
+              price: '$0.00000000',
+              mcap: '$0.00',
+              priceChange: '0.00%',
+              holders: 'N/A',
+              liquidity: '$0.00',
+              isPositive: true,
+              dexScreenerUrl: 'https://bags.fm/3naeJLbMzPL23ocgDLUDoHwH1S7Hk5Fx83joThHwBAGS',
+            },
+            {
               name: 'elizaOS',
               symbol: '$elizaOS',
               logo: '/eliza-token.png',
@@ -108,6 +147,21 @@ const TokenMonitoring = () => {
         console.error('Failed to fetch token data:', error)
         // Fallback to static data on error
         setTokens([
+          {
+            name: 'AURA',
+            symbol: '$AURA',
+            logo: '/aura-logo.png',
+            badge: 'AURA TOKEN',
+            badgeColor: 'cyan-glow',
+            contractAddress: TOKEN_CONTRACTS.aura.slice(0, 20) + '...',
+            price: '$0.00000000',
+            mcap: '$0.00',
+            priceChange: '0.00%',
+            holders: 'N/A',
+            liquidity: '$0.00',
+            isPositive: true,
+            dexScreenerUrl: 'https://bags.fm/3naeJLbMzPL23ocgDLUDoHwH1S7Hk5Fx83joThHwBAGS',
+          },
           {
             name: 'elizaOS',
             symbol: '$elizaOS',
@@ -181,7 +235,7 @@ const TokenMonitoring = () => {
       </div>
 
       {/* Token Cards Grid */}
-      <div className="grid gap-4">
+      <div className="grid gap-4 sm:grid-cols-2">
         {tokens.map((token, index) => {
           const CardWrapper = token.dexScreenerUrl ? 'a' : 'div'
           const cardProps = token.dexScreenerUrl
