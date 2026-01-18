@@ -23,13 +23,27 @@ const { links } = Astro.props
           class={buttonVariants({ variant: 'outline', size: 'icon' })}
           external
         >
-          <Icon
-            name={
-              ICON_MAP[label as keyof typeof ICON_MAP] ||
-              'lucide:message-circle-question'
-            }
-            class="size-4"
-          />
+          {label === 'PumpFun' ? (
+            <img
+              src="/Pump-Fun-Logo.png"
+              alt="PumpFun"
+              class="size-4 object-contain"
+            />
+          ) : label === 'Bags' ? (
+            <img
+              src="/bags-icon.png"
+              alt="Bags"
+              class="size-4 object-contain"
+            />
+          ) : (
+            <Icon
+              name={
+                ICON_MAP[label as keyof typeof ICON_MAP] ||
+                'lucide:message-circle-question'
+              }
+              class="size-4"
+            />
+          )}
         </Link>
       </li>
     ))

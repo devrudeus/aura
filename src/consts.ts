@@ -28,8 +28,16 @@ export const NAV_LINKS: SocialLink[] = [
 
 export const SOCIAL_LINKS: SocialLink[] = [
   {
-    href: 'https://twitter.com',
+    href: 'https://x.com/ai16zaura',
     label: 'Twitter',
+  },
+  {
+    href: 'https://bags.fm/3naeJLbMzPL23ocgDLUDoHwH1S7Hk5Fx83joThHwBAGS',
+    label: 'Bags',
+  },
+  {
+    href: 'https://github.com/devrudeus/aura',
+    label: 'GitHub',
   },
 ]
 
@@ -40,6 +48,8 @@ export const ICON_MAP: IconMap = {
   Twitter: 'lucide:twitter',
   Email: 'lucide:mail',
   RSS: 'lucide:rss',
+  Bags: 'lucide:shopping-bag',
+  PumpFun: 'lucide:rocket',
 }
 
 // Aura-specific constants
