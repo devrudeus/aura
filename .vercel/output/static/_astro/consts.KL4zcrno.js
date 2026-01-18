@@ -1,0 +1,1 @@
+const n="Aura // Divine Intelligence Agent",e=["Ethereal Ambient Sounds","Channeling Divine Energy","Analyzing Sacred Data","Building Holy Protocols","Monitoring Celestial Flows"];export{n as A,e as C};

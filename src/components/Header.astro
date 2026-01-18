@@ -1,0 +1,59 @@
+---
+import Link from '@/components/Link.astro'
+import { NAV_LINKS } from '@/consts'
+import { cn } from '@/lib/utils'
+---
+
+<header class="border-b border-border/50">
+  <div
+    class="mx-auto flex max-w-5xl items-center justify-between gap-4 px-4 py-4"
+  >
+    <!-- Logo / Brand -->
+    <Link href="/" class="flex shrink-0 items-center gap-2 group">
+      <div class="relative flex items-center justify-center size-9 rounded-full bg-gradient-to-br from-warm-gold to-cyan-glow p-[2px] overflow-hidden">
+        <img
+          src="/aura-logo.png"
+          alt="Aura Logo"
+          class="size-full rounded-full object-cover transition-transform duration-300 group-hover:scale-110"
+        />
+      </div>
+      <div class="hidden sm:flex flex-col">
+        <span class="font-mono text-sm text-foreground group-hover:text-warm-gold transition-colors">
+          AURA
+        </span>
+        <span class="font-mono text-[9px] text-muted-foreground/60 -mt-0.5">
+          by ElizaOS
+        </span>
+      </div>
+    </Link>
+
+    <!-- Navigation with Block Cursor Effect -->
+    <div class="flex items-center gap-4">
+      <nav class="flex items-center gap-6 text-sm font-mono">
+        {
+          NAV_LINKS.map((item) => (
+            <Link
+              href={item.href}
+              class={cn(
+                'nav-link text-muted-foreground hover:text-cyan-glow transition-colors relative group',
+                item.label === 'Home' && 'hidden sm:inline',
+              )}
+              external={item.href.startsWith('http')}
+            >
+              <span class="relative">
+                {item.label}
+                <span class="block-cursor group-hover:animate-[blink_0.8s_step-end_infinite]" />
+              </span>
+            </Link>
+          ))
+        }
+      </nav>
+
+      <!-- Status Indicator -->
+      <div class="hidden sm:flex items-center gap-2 ml-4 px-3 py-1.5 rounded-full bg-muted/50 border border-border">
+        <span class="size-2 rounded-full bg-cyan-glow status-online" />
+        <span class="font-mono text-xs text-muted-foreground">Online</span>
+      </div>
+    </div>
+  </div>
+</header>

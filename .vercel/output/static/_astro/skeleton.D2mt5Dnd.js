@@ -1,0 +1,1 @@
+import{j as o}from"./jsx-runtime.EKYJJIwR.js";import{a as s}from"./utils.C8mDAffN.js";function m({className:r,...e}){return o.jsx("div",{className:s("bg-border/50 animate-pulse",r),...e})}export{m as S};

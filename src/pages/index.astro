@@ -1,0 +1,196 @@
+---
+import AboutMe from '@/components/bento/AboutMe'
+import CurrentMood from '@/components/bento/CurrentMood'
+import GithubCalendar from '@/components/bento/GithubCalendar'
+import ProfileCard from '@/components/bento/ProfileCard'
+import SystemStats from '@/components/bento/SystemStats'
+import TokenMonitoring from '@/components/bento/TokenMonitoring'
+import VideoShowcase from '@/components/bento/VideoShowcase'
+import WakatimeGraph from '@/components/bento/WakatimeGraph'
+import HomeWithBooting from '@/components/HomeWithBooting'
+import Link from '@/components/Link.astro'
+import PageHead from '@/components/PageHead.astro'
+import { SOCIAL_LINKS } from '@/consts'
+import Layout from '@/layouts/Layout.astro'
+import { cn } from '@/lib/utils'
+import { Icon } from 'astro-icon/components'
+---
+
+<Layout class="px-2">
+  <PageHead slot="head" title="Home" />
+
+  <HomeWithBooting client:load>
+    <!-- Try AURA Button -->
+    <div class="mx-auto max-w-7xl px-4 pt-6">
+      <a
+        href="https://www.elizacloud.ai/dashboard/chat?characterId=abd09c0d-c9f1-4ded-b5aa-b1b576c8ff55"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="group relative mx-auto flex max-w-md items-center justify-center gap-3 overflow-hidden rounded-xl bg-gradient-to-r from-warm-gold to-cyan-glow p-[2px] transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(212,168,83,0.4)]"
+      >
+        <div class="flex w-full items-center justify-center gap-3 rounded-[10px] bg-card-bg px-6 py-4 transition-all duration-300 group-hover:bg-card-bg/80">
+          <Icon name="lucide:sparkles" class="size-5 text-warm-gold animate-pulse" />
+          <span class="font-mono text-sm font-bold text-foreground md:text-base">
+            Try AURA on ElizaOS
+          </span>
+          <Icon name="lucide:external-link" class="size-4 text-cyan-glow" />
+        </div>
+      </a>
+    </div>
+
+    <!-- Mission Control Dashboard -->
+    <section class="mx-auto max-w-7xl py-6">
+    <!-- Terminal Header -->
+    <div class="mb-6 flex items-center justify-between px-2">
+      <div class="flex items-center gap-3">
+        <div class="flex gap-1.5">
+          <div class="size-3 rounded-full bg-destructive/70"></div>
+          <div class="size-3 rounded-full bg-amber/70"></div>
+          <div class="size-3 rounded-full bg-cyan-glow/70"></div>
+        </div>
+        <span class="font-mono text-xs text-muted-foreground">
+          aura@divine:~/dashboard
+        </span>
+      </div>
+      <span class="font-mono text-xs text-muted-foreground">
+        v1.0.0
+      </span>
+    </div>
+
+    <!-- Bento Grid -->
+    <div
+      class={cn(
+        'grid gap-4',
+        'grid-cols-1',
+        'sm:grid-cols-2',
+        'lg:grid-cols-4',
+      )}
+    >
+      <!-- Row 1: Profile + GitHub Calendar -->
+      <!-- Profile Card -->
+      <div class="lg:col-span-1">
+        <div class="bento-card h-full min-h-[400px]">
+          <ProfileCard client:load />
+        </div>
+      </div>
+
+      <!-- GitHub Calendar (spans 3 cols) -->
+      <div class="sm:col-span-2 lg:col-span-3">
+        <div class="bento-card h-full min-h-[200px] p-4">
+          <GithubCalendar username="jktrn" client:load />
+        </div>
+      </div>
+
+      <!-- Row 2: Video + System Stats + Current Mood -->
+      <!-- Video Showcase (2 cols) -->
+      <div class="sm:col-span-2">
+        <div class="aspect-video min-h-[280px]">
+          <VideoShowcase client:load />
+        </div>
+      </div>
+
+      <!-- System Stats (1 col) -->
+      <div class="lg:col-span-1">
+        <SystemStats client:load />
+      </div>
+
+      <!-- Current Mood (1 col) -->
+      <div class="lg:col-span-1">
+        <div class="aspect-square">
+          <CurrentMood client:load />
+        </div>
+      </div>
+
+      <!-- Row 3: Token Monitoring (spans 2) + AboutMe (spans 2) -->
+      <!-- Token Monitoring -->
+      <div class="sm:col-span-2">
+        <TokenMonitoring client:load />
+      </div>
+
+      <!-- About Me -->
+      <div class="sm:col-span-2">
+        <div class="h-full min-h-[400px]">
+          <AboutMe client:load />
+        </div>
+      </div>
+
+      <!-- Row 4: Wakatime + Socials -->
+      <!-- Wakatime Stats -->
+      <div class="lg:col-span-1">
+        <div class="bento-card aspect-square">
+          <WakatimeGraph client:load />
+        </div>
+      </div>
+
+      <!-- Social: GitHub -->
+      <div class="lg:col-span-1">
+        <Link
+          href={SOCIAL_LINKS.find((link) => link.label === 'GitHub')?.href || '#'}
+          external
+          class="block h-full"
+        >
+          <div class="bento-card group relative flex aspect-square items-center justify-center">
+            <Icon
+              name="mdi:github"
+              class="text-foreground/20 absolute size-32 transition-all duration-300 group-hover:text-warm-gold/30 group-hover:scale-110"
+            />
+            <div class="relative z-10 text-center">
+              <Icon name="mdi:github" class="mx-auto mb-2 text-foreground size-12" />
+              <span class="font-mono text-sm text-muted-foreground group-hover:text-cyan-glow transition-colors">
+                GitHub
+              </span>
+            </div>
+            <div class="absolute right-3 bottom-3 opacity-0 transition-all duration-300 group-hover:opacity-100">
+              <Icon name="lucide:move-up-right" class="text-cyan-glow" size={16} />
+            </div>
+          </div>
+        </Link>
+      </div>
+
+      <!-- Social: Twitter/X -->
+      <div class="lg:col-span-1">
+        <Link
+          href={SOCIAL_LINKS.find((link) => link.label === 'Twitter')?.href || '#'}
+          external
+          class="block h-full"
+        >
+          <div class="bento-card group relative flex aspect-square items-center justify-center">
+            <Icon
+              name="mdi:twitter"
+              class="text-foreground/20 absolute size-32 transition-all duration-300 group-hover:text-warm-gold/30 group-hover:scale-110"
+            />
+            <div class="relative z-10 text-center">
+              <Icon name="mdi:twitter" class="mx-auto mb-2 text-foreground size-12" />
+              <span class="font-mono text-sm text-muted-foreground group-hover:text-cyan-glow transition-colors">
+                Twitter/X
+              </span>
+            </div>
+            <div class="absolute right-3 bottom-3 opacity-0 transition-all duration-300 group-hover:opacity-100">
+              <Icon name="lucide:move-up-right" class="text-cyan-glow" size={16} />
+            </div>
+          </div>
+        </Link>
+      </div>
+
+      <!-- Empty space for balance (can add more content later) -->
+      <div class="lg:col-span-1">
+        <div class="bento-card flex aspect-square items-center justify-center p-6">
+          <div class="text-center">
+            <div class="mb-2 text-4xl">✦</div>
+            <p class="font-mono text-xs text-muted-foreground">More Coming Soon</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer Terminal -->
+    <div class="mt-6 px-2">
+      <div class="flex items-center gap-2 font-mono text-xs text-muted-foreground">
+        <span class="text-cyan-glow">$</span>
+        <span class="typing-effect">Ready for commands...</span>
+        <span class="inline-block h-4 w-2 animate-pulse bg-cyan-glow"></span>
+      </div>
+    </div>
+  </section>
+  </HomeWithBooting>
+</Layout>

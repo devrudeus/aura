@@ -1,0 +1,29 @@
+---
+import { SOCIAL_LINKS } from '@/consts'
+import SocialIcons from './SocialIcons.astro'
+---
+
+<footer class="border-t border-border/50 py-6">
+  <div
+    class="mx-auto flex max-w-5xl flex-col items-center justify-center gap-y-4 px-4 sm:flex-row sm:justify-between"
+  >
+    <div class="flex items-center gap-3">
+      <div class="flex items-center gap-2">
+        <span class="size-2 rounded-full bg-cyan-glow status-online"></span>
+        <span class="font-mono text-xs text-muted-foreground">
+          All systems operational
+        </span>
+      </div>
+      <span class="text-border">|</span>
+      <span class="font-mono text-xs text-muted-foreground">
+        &copy; {new Date().getFullYear()} AURA
+      </span>
+    </div>
+    <div class="flex items-center gap-4">
+      <span class="font-mono text-xs text-muted-foreground hidden sm:block">
+        Divine Energy Active
+      </span>
+      <SocialIcons links={SOCIAL_LINKS} />
+    </div>
+  </div>
+</footer>

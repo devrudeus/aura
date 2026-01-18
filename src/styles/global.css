@@ -1,0 +1,284 @@
+@import 'tailwindcss';
+
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+@theme inline {
+  --font-mono:
+    'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    'Liberation Mono', 'Courier New', monospace;
+  --font-sans:
+    'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, sans-serif;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+
+  --color-additive: var(--additive);
+  --color-additive-foreground: var(--additive-foreground);
+
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+
+  --color-border: var(--border);
+  --color-ring: var(--ring);
+
+  /* Aura Divine Theme Colors */
+  --color-warm-gold: var(--warm-gold);
+  --color-soft-silver: var(--soft-silver);
+  --color-cyan-glow: var(--cyan-glow);
+  --color-warm-ivory: var(--warm-ivory);
+  --color-amber: var(--amber);
+  --color-card-bg: var(--card-bg);
+  --color-void-black: var(--void-black);
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('/fonts/JetBrainsMono[wght].woff2') format('woff2-variations');
+  font-weight: 100 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('/fonts/JetBrainsMono-Italic[wght].woff2') format('woff2-variations');
+  font-weight: 100 800;
+  font-style: italic;
+  font-display: swap;
+}
+
+:root {
+  /* Aura Divine Theme - Dark Base */
+  --void-black: #0A0A0F;
+  --card-bg: #0F0F14;
+  --background: #0A0A0F;
+  --foreground: #F5F0E8;
+
+  /* Aura Divine Accent Colors */
+  --warm-gold: #D4A853;
+  --soft-silver: #A8B0BC;
+  --cyan-glow: #4ECDC4;
+  --warm-ivory: #FFF8E7;
+  --amber: #F5A623;
+
+  /* Semantic Colors */
+  --primary: #D4A853;
+  --primary-foreground: #0A0A0F;
+  --muted: #151518;
+  --muted-foreground: #8A8A95;
+  --destructive: #E85D5D;
+  --additive: #4ECDC4;
+  --additive-foreground: #0A0A0F;
+
+  /* Border & Ring */
+  --border: #252530;
+  --ring: #D4A853;
+
+  /* Gradient Border Colors - Gold to Cyan */
+  --gradient-start: #D4A853;
+  --gradient-end: #4ECDC4;
+
+  /* Chart colors - Gold to Cyan gradient */
+  --chart-1: 43 65% 58%;
+  --chart-2: 50 60% 52%;
+  --chart-3: 80 50% 48%;
+  --chart-4: 120 45% 45%;
+  --chart-5: 160 55% 50%;
+  --chart-6: 170 65% 54%;
+  --chart-7: 174 64% 55%;
+}
+
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    @apply border-border outline-ring/50 tracking-tight;
+  }
+}
+
+@layer components {
+  /* Gradient Border Card Component */
+  .bento-card {
+    position: relative;
+    background: var(--card-bg);
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+
+  .bento-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    padding: 1px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0.3;
+    transition: opacity 0.3s ease, box-shadow 0.3s ease;
+    pointer-events: none;
+  }
+
+  .bento-card:hover::before {
+    opacity: 0.8;
+  }
+
+  .bento-card:hover {
+    box-shadow:
+      0 0 20px rgba(212, 168, 83, 0.2),
+      0 0 40px rgba(78, 205, 196, 0.1);
+  }
+
+  /* Block Cursor Blink Effect for Navigation */
+  .nav-link {
+    position: relative;
+    transition: color 0.2s ease;
+  }
+
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--cyan-glow);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.2s ease;
+  }
+
+  .nav-link:hover::after {
+    transform: scaleX(1);
+  }
+
+  .nav-link:hover .block-cursor {
+    animation: blink 0.8s step-end infinite;
+  }
+
+  .block-cursor {
+    display: inline-block;
+    width: 0.6em;
+    height: 1.1em;
+    background: var(--cyan-glow);
+    margin-left: 2px;
+    vertical-align: text-bottom;
+    opacity: 0;
+  }
+
+  /* Typing Animation for Status */
+  .typing-effect {
+    overflow: hidden;
+    white-space: nowrap;
+    animation: typing 3s steps(30) infinite;
+  }
+
+  /* Status Indicator Pulse */
+  .status-online {
+    animation: pulse-green 2s ease-in-out infinite;
+  }
+
+  .status-congested {
+    animation: pulse-red 1s ease-in-out infinite;
+  }
+
+  /* Audio Waveform Animation */
+  .waveform-bar {
+    animation: waveform 1.2s ease-in-out infinite;
+  }
+
+  .waveform-bar:nth-child(1) { animation-delay: 0s; }
+  .waveform-bar:nth-child(2) { animation-delay: 0.1s; }
+  .waveform-bar:nth-child(3) { animation-delay: 0.2s; }
+  .waveform-bar:nth-child(4) { animation-delay: 0.3s; }
+  .waveform-bar:nth-child(5) { animation-delay: 0.4s; }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@keyframes typing {
+  0%, 100% { width: 0; }
+  50% { width: 100%; }
+}
+
+@keyframes pulse-green {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(78, 205, 196, 0.7); }
+  50% { box-shadow: 0 0 0 6px rgba(78, 205, 196, 0); }
+}
+
+@keyframes pulse-red {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+  50% { box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }
+}
+
+@keyframes waveform {
+  0%, 100% { height: 20%; }
+  50% { height: 100%; }
+}
+
+/* Code Badge Styling */
+.code-badge {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  padding: 0.2rem 0.5rem;
+  background: rgba(212, 168, 83, 0.15);
+  border: 1px solid rgba(212, 168, 83, 0.3);
+  border-radius: 4px;
+  color: var(--warm-gold);
+  transition: all 0.2s ease;
+}
+
+.code-badge:hover {
+  background: rgba(212, 168, 83, 0.25);
+  border-color: var(--warm-gold);
+}
+
+/* Terminal-style scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--void-black);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--warm-gold);
+}
+
+/* Scanline effect for cyberpunk feel (subtle) */
+.scanlines::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.03) 2px,
+    rgba(0, 0, 0, 0.03) 4px
+  );
+  pointer-events: none;
+}
