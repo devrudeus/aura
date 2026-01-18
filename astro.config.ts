@@ -21,7 +21,7 @@ import svelte from '@astrojs/svelte';
 
 export default defineConfig({
   site: 'https://aura.dev',
-  output: 'server',
+  output: 'static',
   adapter: vercel({
     webAnalytics: {
       enabled: true,
